@@ -22,4 +22,4 @@ sqlparse==0.4.3
 tomli==2.0.1
 yapf==0.32.0
 beautifulsoup4==4.11.2
-
+django_debug_toolbar==3.8.1
