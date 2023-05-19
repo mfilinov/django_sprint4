@@ -63,14 +63,14 @@ class Post(BaseModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='location',
+        related_name='post',
         verbose_name='Местоположение'
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='category',
+        related_name='post',
         verbose_name='Категория'
     )
     image = models.ImageField(
@@ -93,6 +93,7 @@ class Comment(models.Model):
         Post,
         on_delete=models.CASCADE,
         related_name='comment',
+        verbose_name='публикация'
     )
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name='Добавлено')

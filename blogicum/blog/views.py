@@ -92,7 +92,9 @@ class ProfileListView(ListView):
     def get_queryset(self):
         return (
             self.model.objects.select_related('author')
-            .filter(author__username=self.kwargs['username']))
+            .filter(author__username=self.kwargs['username'])
+            .annotate(comment_count=Count("comment"))
+            .order_by("-pub_date"))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -127,8 +129,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
-        context['comments'] = self.object.comment.all().select_related(
-            'author')
+        context['comments'] = self.object.comment.select_related('author')
         return context
 
 
@@ -147,7 +148,9 @@ class CategoryPostsListView(ListView):
             self.model.objects.select_related('location', 'author', 'category')
             .filter(is_published=True,
                     pub_date__lte=timezone.now(),
-                    category=category))
+                    category=category)
+            .annotate(comment_count=Count("comment"))
+            .order_by("-pub_date"))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
