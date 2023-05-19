@@ -147,8 +147,7 @@ class CategoryPostsListView(ListView):
         return (
             category.post.select_related('location', 'author', 'category')
             .filter(is_published=True,
-                    pub_date__lte=timezone.now(),
-                    category=category)
+                    pub_date__lte=timezone.now())
             .annotate(comment_count=Count("comment"))
             .order_by("-pub_date"))
 
