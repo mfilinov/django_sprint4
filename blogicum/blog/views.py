@@ -145,7 +145,7 @@ class CategoryPostsListView(ListView):
             is_published=True)
 
         return (
-            self.model.objects.select_related('location', 'author', 'category')
+            category.post.select_related('location', 'author', 'category')
             .filter(is_published=True,
                     pub_date__lte=timezone.now(),
                     category=category)
